@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-mailer": "^0.1.1"
+  }
+}
