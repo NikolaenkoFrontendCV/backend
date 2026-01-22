@@ -1,19 +1,16 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
-const fs = require('fs');
-const toml = require('toml');
-
-const config = toml.parse(fs.readFileSync('./config.toml', 'utf-8'));
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT),
+    secure: process.env.SMTP_SECURE === 'true',
     auth: {
-      user: "alexnikol092004@gmail.com",
-      pass: config.gmail.emailkey,
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
     },
 });
 
@@ -31,8 +28,8 @@ app.post('/send-contacts', async (req, res) => {
 
   try {
     await transporter.sendMail({
-      from: '<alexnikol092004@gmail.com>',
-      to: "nikol.alex06@mail.ru",
+      from: `<${process.env.SMTP_USER}>`,
+      to: process.env.EMAIL_TO,
       subject: "Контакты с сайта",
       text: JSON.stringify(req.body),
     });
