@@ -24,7 +24,13 @@ app.get('/health', (req, res) => {
 
 // Роут для отправки email
 app.post('/send-contacts', async (req, res) => {
-  const {  } = req.body;
+  res.set(
+    {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    }
+  )
 
   try {
     await transporter.sendMail({
